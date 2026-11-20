@@ -26,7 +26,7 @@ class Command(BaseCommand):
             for brand_name in brands: Brand.objects.get_or_create(name=brand_name)
             for i in range(50):
                 kind=types[i%len(types)]; brand=Brand.objects.get(name=brands[i%len(brands)])
-                name=f"{brand_name if False else brand.name} {kind} {i+1:02d}"
+                name=f"{brand.name} {kind} {i+1:02d}"
                 slug=slugify(f"{category_name}-{name}")
                 Product.objects.update_or_create(slug=slug,defaults={
                     "category":category,"brand":brand,"name":name,
