@@ -218,7 +218,6 @@ def cancel_order(request,order_id):
         order.status="cancelled"; order.save(update_fields=["status"])
         for item in order.items.all():
             p=item.product; p.stock+=item.quantity; p.save(update_fields=["stock"])
-    send_order_email(order,"Your My Myntra order was cancelled")
     messages.success(request,"Order cancelled.")
     return redirect("order_detail",order_id=order_id)
 
