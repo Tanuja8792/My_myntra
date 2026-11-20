@@ -1,0 +1,29 @@
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views
+urlpatterns=[
+ path("",views.home,name="home"),
+ path("products/",views.product_list,name="product_list"),
+ path("category/<slug:slug>/",views.product_list,name="category"),
+ path("product/<slug:slug>/",views.product_detail,name="product_detail"),
+ path("register/",views.register,name="register"),
+ path("login/",auth_views.LoginView.as_view(template_name="store/login.html"),name="login"),
+ path("logout/",auth_views.LogoutView.as_view(),name="logout"),
+ path("account/",views.profile,name="profile"),
+ path("account/address/add/",views.add_address,name="add_address"),
+ path("cart/",views.cart_view,name="cart"),
+ path("cart/add/<int:product_id>/",views.add_to_cart,name="add_to_cart"),
+ path("cart/update/<int:product_id>/",views.update_cart,name="update_cart"),
+ path("cart/remove/<int:product_id>/",views.remove_cart,name="remove_cart"),
+ path("wishlist/",views.wishlist,name="wishlist"),
+ path("wishlist/toggle/<int:product_id>/",views.toggle_wishlist,name="toggle_wishlist"),
+ path("checkout/",views.checkout,name="checkout"),
+ path("checkout/coupon/",views.apply_coupon,name="apply_coupon"),
+ path("orders/",views.orders,name="orders"),
+ path("orders/<str:order_id>/",views.order_detail,name="order_detail"),
+ path("orders/<str:order_id>/cancel/",views.cancel_order,name="cancel_order"),
+ path("review/<slug:slug>/",views.add_review,name="add_review"),
+ path("return/<int:item_id>/",views.return_request,name="return_request"),
+ path("dashboard/",views.dashboard,name="dashboard"),
+ path("chatbot/",views.chatbot,name="chatbot"),
+]
