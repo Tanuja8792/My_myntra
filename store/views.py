@@ -18,7 +18,9 @@ from .utils import send_order_email
 
 def home(request):
     featured=Product.objects.filter(is_active=True).select_related("category","brand").order_by("-created_at")[:12]
+    category_visuals={"ethnic-wear":"https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1200","western-wear":"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1200","mens-fashion":"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=1200","accessories":"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200"}
     categories=Category.objects.all()
+    for item in categories: item.banner_image=category_visuals.get(item.slug,"")
     recently=[]
     ids=request.session.get("recently_viewed",[])[:6]
     if ids: recently=list(Product.objects.filter(id__in=ids,is_active=True))
@@ -46,7 +48,9 @@ def product_list(request,slug=None):
     elif request.GET.get("sort")=="rating": products=products.order_by("-rating")
     else: products=products.order_by("-created_at")
     page=Paginator(products,12).get_page(request.GET.get("page"))
-    return render(request,"store/product_list.html",{"page":page,"category":category,"q":q,"brands":Brand.objects.all()})
+    category_visuals={"ethnic-wear":"https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1600","western-wear":"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1600","mens-fashion":"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=1600","accessories":"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1600"}
+    banner_image=category_visuals.get(category.slug,"") if category else ""
+    return render(request,"store/product_list.html",{"page":page,"category":category,"q":q,"brands":Brand.objects.all(),"banner_image":banner_image})
 
 def product_detail(request,slug):
     product=get_object_or_404(Product,slug=slug,is_active=True)
