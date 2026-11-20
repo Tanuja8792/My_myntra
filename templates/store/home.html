@@ -1,8 +1,16 @@
-{% extends 'store/base.html' %}{% block title %}My Myntra | Fashion Store{% endblock %}{% block content %}
+{% extends 'store/base.html' %}
+{% block title %}My Myntra | Fashion Store{% endblock %}
+{% block content %}
 <section class="hero"><div><p class="eyebrow">THE STYLE EDIT</p><h1>Fashion that feels<br>like <em>you.</em></h1><p>Find your next favourite look across every collection.</p><a class="btn btn-dark btn-lg" href="{% url 'product_list' %}">Shop now</a></div><div class="hero-art">NEW<br><strong>SEASON</strong><br>NEW YOU</div></section>
 <div class="promo-strip">FREE DELIVERY ON ORDERS ABOVE ₹999 &nbsp; · &nbsp; EASY RETURNS &nbsp; · &nbsp; NEW SEASON DROPS</div>
-<h2 class="section-title">Shop by category</h2><div class="category-grid">{% for c in categories %}<a class="category-tile tile-{{forloop.counter}}" href="{% url 'category' c.slug %}"><span>{{c.name}}</span><small>EXPLORE COLLECTION →</small></a>{% endfor %}</div>
-<div class="d-flex justify-content-between align-items-center mt-5 mb-3"><h2 class="section-title m-0">Trending now</h2><a href="{% url 'product_list' %}">View all →</a></div><div class="product-grid">{% for p in featured %}{% include 'store/product_card.html' with p=p %}{% empty %}<p>No products yet. Run <code>python manage.py seed_products</code>.</p>{% endfor %}</div>
+<h2 class="section-title">Shop by category</h2>
+<div class="category-grid">
+{% for c in categories %}
+<a class="category-tile" href="{% url 'category' c.slug %}" style="background-image:linear-gradient(0deg,rgba(0,0,0,.68),rgba(0,0,0,.05)),url('{{ c.banner_image }}')"><span>{{c.name}}</span><small>EXPLORE COLLECTION →</small></a>
+{% endfor %}
+</div>
+<div class="d-flex justify-content-between align-items-center mt-5 mb-3"><h2 class="section-title m-0">Trending now</h2><a href="{% url 'product_list' %}">View all →</a></div>
+<div class="product-grid">{% for p in featured %}{% include 'store/product_card.html' with p=p %}{% empty %}<p>No products yet. Run <code>python manage.py seed_products</code>.</p>{% endfor %}</div>
 {% if recently %}<h2 class="section-title mt-5">Recently viewed</h2><div class="product-grid">{% for p in recently %}{% include 'store/product_card.html' with p=p %}{% endfor %}</div>{% endif %}
 <div class="chat-help"><span>Need style help?</span><a href="#" onclick="askStyleBot(event)">Chat with Style Assistant</a><div id="bot-answer"></div></div>
 {% endblock %}
